@@ -48,9 +48,9 @@ extension MemoListViewController {
         }
 
         if let selectedIndexPath = lastIndexPath {
-            updateMemo(with: memo, at: selectedIndexPath)
+            delegate?.updateMemo(with: memo, at: selectedIndexPath)
         } else {
-            insertMemo(with: memo)
+            delegate?.createMemo(with: memo)
         }
     }
 
@@ -72,14 +72,6 @@ extension MemoListViewController {
 
     func applyDeletedMemo(at indexPath: IndexPath) {
         memoListDataSource.tableView(tableView, deleteRowAt: indexPath)
-    }
-
-    private func insertMemo(with memo: Memo) {
-        delegate?.createMemo(with: memo)
-    }
-
-    private func updateMemo(with memo: Memo, at indexPath: IndexPath) {
-        delegate?.updateMemo(with: memo, at: indexPath)
     }
 }
 
