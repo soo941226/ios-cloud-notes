@@ -42,7 +42,7 @@ extension MemoListViewController {
         memoListDataSource.tableView(tableView, initializeMemoListWith: memoList)
     }
 
-    func configure(with memo: Memo?) {
+    func upsertMemo(with memo: Memo?) {
         guard let memo = memo else {
             return
         }
@@ -69,7 +69,7 @@ extension MemoListViewController {
     }
 
     private func updateMemo(with memo: Memo, at indexPath: IndexPath) {
-        delegate?.updateMemo(memo, at: indexPath.row)
+        delegate?.updateMemo(with: memo, at: indexPath.row)
         memoListDataSource.tableView(tableView, updateRowAt: indexPath, with: memo)
     }
 }

@@ -56,7 +56,7 @@ extension SplitViewController: DelegateBetweenController {
     }
 
     func update(with memo: Memo?) {
-        listViewController.configure(with: memo)
+        listViewController.upsertMemo(with: memo)
     }
 
     func showList() {
@@ -79,7 +79,7 @@ extension SplitViewController: DelegateBetweenController {
         }
     }
 
-    func updateMemo(_ memo: Memo, at index: Int) {
+    func updateMemo(with memo: Memo, at index: Int) {
         coreDataManager.updateMemo(with: memo, at: index) { result in
             switch result {
             case .success:

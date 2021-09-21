@@ -16,7 +16,7 @@ protocol DetailViewControllerDelegate: AnyObject {
 
 protocol ListViewControllerDelegate: AnyObject {
     func showDetail(with memo: Memo?)
-    func updateMemo(_ memo: Memo, at index: Int)
+    func updateMemo(with memo: Memo, at index: Int)
     func createMemo(with memo: Memo)
     func deleteMemo(at index: Int)
     func showActionSheet()
