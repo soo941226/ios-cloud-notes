@@ -78,13 +78,19 @@ extension MemoListViewController {
 // MARK: - Draw View
 extension MemoListViewController {
     private func configureTableView() {
-        let basicInset = UIEdgeInsets(
+        let horizontalMarginForTableView: CGFloat = 10
+        let basicInsetForTableView = UIEdgeInsets(
+            top: .zero,
+            left: horizontalMarginForTableView,
+            bottom: .zero,
+            right: -horizontalMarginForTableView
+        )
+        let basicInsetForTableViewSeparator = UIEdgeInsets(
             top: .zero,
             left: .zero,
             bottom: .zero,
             right: .zero
         )
-        let horizontalMargin: CGFloat = 10
 
         memoListDelegator = MemoListViewDelegate(owner: self)
         tableView.dataSource = memoListDataSource
@@ -95,13 +101,8 @@ extension MemoListViewController {
         )
 
         tableView.separatorColor = .darkGray
-        tableView.separatorInset = basicInset
-        tableView.contentInset = UIEdgeInsets(
-            top: .zero,
-            left: horizontalMargin,
-            bottom: .zero,
-            right: -horizontalMargin
-        )
+        tableView.separatorInset = basicInsetForTableViewSeparator
+        tableView.contentInset = basicInsetForTableView
     }
 
     private func configureNavigationTitle() {
