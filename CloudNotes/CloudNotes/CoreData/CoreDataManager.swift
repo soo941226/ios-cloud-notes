@@ -63,10 +63,10 @@ final class CoreDataManager {
 
     func updateMemo(
         with memo: Memo,
-        at index: Int,
+        at indexPath: IndexPath,
         completionHandler closure: @escaping (Result<Void, ErrorCases>) -> Void
     ) {
-        guard let targetToUpdate = storedCloudNoteList?[index] else {
+        guard let targetToUpdate = storedCloudNoteList?[indexPath.row] else {
             closure(.failure(.disabledInSearchingData))
             return
         }
@@ -78,9 +78,14 @@ final class CoreDataManager {
 
             do {
                 try self.context.save()
-                return closure(.success(()))
+
+                DispatchQueue.main.async {
+                    closure(.success(()))
+                }
             } catch {
-                return closure(.failure(.disabledInSavingContext))
+                DispatchQueue.main.async {
+                    closure(.failure(.disabledInSavingContext))
+                }
             }
         }
     }
@@ -108,29 +113,40 @@ final class CoreDataManager {
                     self.storedCloudNoteList?.insert(newCloudNote, at: .zero)
                 }
 
-                closure(.success(()))
+                DispatchQueue.main.async {
+                    closure(.success(()))
+                }
             } catch {
-                closure(.failure(.disabledInSavingContext))
+                DispatchQueue.main.async {
+                    closure(.failure(.disabledInSavingContext))
+                }
             }
         }
     }
 
     func deleteMemo(
-        at index: Int,
+        at indexPath: IndexPath,
         completionHandler closure: @escaping (Result<Void, ErrorCases>) -> Void
     ) {
-        guard let targetToDelete = storedCloudNoteList?[index] else {
+        guard let targetToDelete = storedCloudNoteList?[indexPath.row] else {
             closure(.failure(.disabledInSearchingData))
             return
         }
 
-        do {
-            context.delete(targetToDelete)
-            try context.save()
-            storedCloudNoteList?.remove(at: index)
-            closure(.success(()))
-        } catch {
-            closure(.failure(.disabledInSavingContext))
+        context.perform {
+            do {
+                self.context.delete(targetToDelete)
+                try self.context.save()
+                self.storedCloudNoteList?.remove(at: indexPath.row)
+                
+                DispatchQueue.main.async {
+                    closure(.success(()))
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    closure(.failure(.disabledInSavingContext))
+                }
+            }
         }
     }
 

@@ -71,7 +71,7 @@ extension SplitViewController: DelegateBetweenController {
         coreDataManager.createMemo(with: memo) { result in
             switch result {
             case .success:
-                print("success in creating memo")
+                self.listViewController.applyInsertedMemo(with: memo)
             case .failure(let error):
                 let placeholder = ""
                 print(error.errorDescription ?? placeholder)
@@ -79,11 +79,11 @@ extension SplitViewController: DelegateBetweenController {
         }
     }
 
-    func updateMemo(with memo: Memo, at index: Int) {
-        coreDataManager.updateMemo(with: memo, at: index) { result in
+    func updateMemo(with memo: Memo, at indexPath: IndexPath) {
+        coreDataManager.updateMemo(with: memo, at: indexPath) { result in
             switch result {
             case .success:
-                print("success in updating memo")
+                self.listViewController.applyUpdatedMemo(with: memo, at: indexPath)
             case .failure(let error):
                 let placeholder = ""
                 print(error.errorDescription ?? placeholder)
@@ -92,11 +92,11 @@ extension SplitViewController: DelegateBetweenController {
 
     }
 
-    func deleteMemo(at index: Int) {
-        coreDataManager.deleteMemo(at: index) { result in
+    func deleteMemo(at indexPath: IndexPath) {
+        coreDataManager.deleteMemo(at: indexPath) { result in
             switch result {
             case .success:
-                print("success in deleting memo")
+                self.listViewController.applyDeletedMemo(at: indexPath)
             case .failure(let error):
                 let placeholder = ""
                 print(error.errorDescription ?? placeholder)

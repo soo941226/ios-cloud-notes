@@ -40,12 +40,12 @@ extension MemoListViewDataSource {
 
     func tableView(_ tableView: UITableView, deleteRowAt indexPath: IndexPath) {
         memoList.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .automatic)
+        tableView.deleteRows(at: [indexPath], with: .none)
     }
 
     func tableView(_ tableView: UITableView, insertRowWith memo: Memo) {
         memoList.insert(memo, at: .zero)
-        tableView.insertRows(at: [IndexPath(row: .zero, section: .zero)], with: .automatic)
+        tableView.insertRows(at: [IndexPath(row: .zero, section: .zero)], with: .none)
     }
 
     func tableView(
@@ -54,6 +54,6 @@ extension MemoListViewDataSource {
         with memo: Memo
     ) {
         memoList[indexPath.row] = memo
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+        tableView.reloadRows(at: [indexPath], with: .none)
     }
 }

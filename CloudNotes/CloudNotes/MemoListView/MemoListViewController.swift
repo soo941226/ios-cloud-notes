@@ -59,18 +59,27 @@ extension MemoListViewController {
             return
         }
 
-        delegate?.deleteMemo(at: indexPath.row)
+        delegate?.deleteMemo(at: indexPath)
+    }
+
+    func applyInsertedMemo(with memo: Memo) {
+        memoListDataSource.tableView(tableView, insertRowWith: memo)
+    }
+
+    func applyUpdatedMemo(with memo: Memo, at indexPath: IndexPath) {
+        memoListDataSource.tableView(tableView, updateRowAt: indexPath, with: memo)
+    }
+
+    func applyDeletedMemo(at indexPath: IndexPath) {
         memoListDataSource.tableView(tableView, deleteRowAt: indexPath)
     }
 
     private func insertMemo(with memo: Memo) {
         delegate?.createMemo(with: memo)
-        memoListDataSource.tableView(tableView, insertRowWith: memo)
     }
 
     private func updateMemo(with memo: Memo, at indexPath: IndexPath) {
-        delegate?.updateMemo(with: memo, at: indexPath.row)
-        memoListDataSource.tableView(tableView, updateRowAt: indexPath, with: memo)
+        delegate?.updateMemo(with: memo, at: indexPath)
     }
 }
 
