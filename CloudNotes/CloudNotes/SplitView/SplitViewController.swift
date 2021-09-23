@@ -7,7 +7,7 @@
 import UIKit
 import CoreData
 
-class SplitViewController: UISplitViewController {
+final class SplitViewController: UISplitViewController {
 
     private let listViewController = MemoListViewController()
     private let detailViewController = MemoDetailViewController()

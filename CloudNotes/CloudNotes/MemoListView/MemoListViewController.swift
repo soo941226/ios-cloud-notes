@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListViewController: UITableViewController {
+final class MemoListViewController: UITableViewController {
     private let memoListDataSource = MemoListViewDataSource()
     private var memoListDelegator: MemoListViewDelegate?
     private var lastIndexPath: IndexPath?

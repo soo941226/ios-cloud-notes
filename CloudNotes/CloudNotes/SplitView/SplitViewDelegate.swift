@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SplitViewDelegate: UISplitViewControllerDelegate {
+final class SplitViewDelegate: UISplitViewControllerDelegate {
     func splitViewController(
         _ svc: UISplitViewController,
         topColumnForCollapsingToProposedTopColumn proposedTopColumn: UISplitViewController.Column

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListViewCell: UITableViewCell {
+final class MemoListViewCell: UITableViewCell {
     static let identifier = "MemoListViewCell"
 
     private let titleLabel = UILabel()

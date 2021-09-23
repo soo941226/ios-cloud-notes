@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListViewDataSource: NSObject, UITableViewDataSource {
+final class MemoListViewDataSource: NSObject, UITableViewDataSource {
     private var memoList = [Memo]()
 
     subscript(indexPath: IndexPath) -> Memo {

@@ -138,7 +138,7 @@ final class CoreDataManager {
                 self.context.delete(targetToDelete)
                 try self.context.save()
                 self.storedCloudNoteList?.remove(at: indexPath.row)
-                
+
                 DispatchQueue.main.async {
                     closure(.success(()))
                 }

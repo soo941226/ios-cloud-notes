@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MemoListViewDelegate: NSObject, UITableViewDelegate {
+final class MemoListViewDelegate: NSObject, UITableViewDelegate {
     private weak var owner: MemoListViewController?
 
     init(owner: MemoListViewController) {

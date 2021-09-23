@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Memo {
+final class Memo {
     static let associatedEntity = "CloudNote"
 
     let title: String

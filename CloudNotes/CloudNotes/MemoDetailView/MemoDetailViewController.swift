@@ -7,16 +7,16 @@
 
 import UIKit
 
-class MemoDetailViewController: UIViewController {
+final class MemoDetailViewController: UIViewController {
 
     private let textView = UITextView()
     private var textViewBottomAnchor: NSLayoutConstraint?
     private var textViewHeightAnchor: NSLayoutConstraint?
-    private var sendingDataToListViewController: DispatchWorkItem?
+    private var dispatchItemToUpdateMemo: DispatchWorkItem?
 
     private var isCreatingNewMemo = false {
         didSet {
-            if isCreatingNewMemo == true {
+            if isCreatingNewMemo {
                 navigationItem.rightBarButtonItem?.isEnabled = false
             } else {
                 navigationItem.rightBarButtonItem?.isEnabled = true
@@ -71,30 +71,33 @@ class MemoDetailViewController: UIViewController {
 // MARK: - TextView Delegate
 extension MemoDetailViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        guard isCreatingNewMemo == false else {
+        guard !isCreatingNewMemo else {
             return
         }
 
-        sendingDataToListViewController?.cancel()
-        sendingDataToListViewController = DispatchWorkItem(block: sendDataToListViewController)
-        guard let sendingDataToListViewController = sendingDataToListViewController else {
+        dispatchItemToUpdateMemo?.cancel()
+        dispatchItemToUpdateMemo = DispatchWorkItem(block: updateMemo)
+        guard let dispatchItemToUpdateMemo = dispatchItemToUpdateMemo else {
             return
         }
 
         let delay = 0.3
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: sendingDataToListViewController)
+        DispatchQueue.main.asyncAfter(
+            deadline: .now() + delay,
+            execute: dispatchItemToUpdateMemo
+        )
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        guard isCreatingNewMemo == true else {
+        guard isCreatingNewMemo else {
             return
         }
 
-        sendDataToListViewController()
+        updateMemo()
         delegate?.showList()
     }
 
-    private func sendDataToListViewController() {
+    private func updateMemo() {
         let separator = "\n\n"
         var outputStrings = textView.text.components(separatedBy: separator)
 
