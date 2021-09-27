@@ -6,6 +6,8 @@
     * [3.UISplitViewController with SOLID](#3-uisplitviewcontroller-with-solid)
     * [4.Coredata](#4-coredata)
     * [5.Autolayout](#5-autolayout)
+    * [6.Concurrency Programming](#6-concurrency-programming)
+    * [7.그 외](#7-else)
 
 <br>
 
@@ -110,7 +112,7 @@
 
 <br>
 
-### 7. else
+### 7. 그 외
 
 | Theme | description |
 | :---: | :--- |
