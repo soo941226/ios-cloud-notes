@@ -4,7 +4,7 @@
     * [1. TableView, TableViewDelegate, TableViewDataSource, TableViewCell의 역할 및 책임...](#1-tableview-tableviewdelegate-tableviewdatasource-tableviewcell---)
     * [2.Model의 type... struct vs class](#2-model-type-struct-vs-class)
     * [3.UISplitViewController with SOLID](#3-uisplitviewcontroller-with-solid)
-    * [4.Coredata](#4-coredata)
+    * [4.CoreData](#4-coredata)
     * [5.Autolayout](#5-autolayout)
     * [6.Concurrency Programming](#6-concurrency-programming)
     * [7.그 외](#7-else)
@@ -68,15 +68,15 @@
 
 <br>
 
-### 4. Coredata
+### 4. CoreData
 * 이번 프로젝트에서 가장 어려웠던 부분이면서, 가장 값진 부분이었던 것 같다
 
 | Theme | Description |
 |:---:|:---|
 | CRUD의 사후처리 | - 정확히는 context.save()와 context.fetch()에서 throws를 어떻게 핸들링 할 것인지... 고민을 하게 됐다 <br> - 특히 이러한 내용이 UIView의 init(coder:)처럼 테스트시 정상 동작을 하면 무조건 정상 동작을 하는 동작인지, 아니면 런타임 때 달라질 수 있는 동작인지... <br> - 이에 대한 명확한 기준을 찾지 못했지만, 공식문서에서는 이에 대한 핸들링은 하도록 명시하고 있었기에 이를 따르게 되었다 <br> - 다만 실제로 유저의 상호작용까지는 어떤 처리를 해야할지 아직 공부가 부족하여 처리를 하지 못했다. 권장사항으로는 리포트를 해달라고 alert을 띄우거나, 유저가 그나마 덜 불편하도록 우회할 수 있는 방법을 제시한다고 한다|
 | Retreive에 실패했을 때 어떻게 할 것인가 | - 이것은 특히 고민이었던 게, 애초에 모델을 가져오는 것부터가 문제라면 앱을 종료시키는 게 맞는 것인지, 아니면 그대로 두는 게 맞는 것인지 고민을 하였다 <br> - 특히 읽기부터가 안된다면, 이후의 context.save도 당연히 안될 것 같지만, 혹시 되더라도 기존 모델과 충돌을 일으키진 않을까... 하는걱정이 있기 때문이었다 <br> - 하지만 그렇다고 해서 fatalError를 던지는 것은 너무 극단적이라는 피드백을 받았기 때문에 alert을 띄우는 방향으로 가게 되었다 |
-| persistentContainer의 위치 | - 처음 프로젝트 기본 구현에서는 AppDelegate가 들고 있고, 이를 SceneDelegate에 전달해주고 있었고, 여기서 다시 window.rootViewController에 전달해줄 수 있는 형태였다 <br> - 처음에는 기본 구현된 내용이기 때문에 자연스럽게 문제가 없다고 느꼈으나, 공식문서인지 튜토리얼인지에서 앱의 launch가 오래걸리면 iOS에서 강제로 앱을 종료시킨다고 하는 글을 읽게 되었다 <br> - 그래서 CoreData가 특히 AppDelegate에서 초기화가 되는 부분이 마음에 걸렸고, 그렇게 고민하다 보니 SceneDelegate에서 AppDelegate를 알아야하는 것도 마음에 걸렸다 <br> - 그러면서도 SceneDelegate의 기본구현된 내용은 필요한 내용이라고 여겨졌고... SceneDelegate가 CoreData를 알아야한다는 점 때문에, 절충안으로 SplitViewController에 넣게 되었다 <br> - 특히 SceneDelegate는 어차피 SplitViewController를 알아야 하고, SplitViewController는 메시지를 포워딩 해주는 타입이라는 점에서... <br> - 하지만 막상 구현해놓고 보니 차츰 Coredata의 extension이 너무 많아지게 되었고, 아예 다른 CoreDataManager라고 하는 다른 타입으로 분리하여, CoreDataManager가 persistentContainer를 가지고 있고, CoreDataManager을 SplitVC에서 가지고 있는 것으로 바꾸게 되었다|
-| CloudNote와 Memo | - 처음에 Cloudnote를 사용하지 않고 JSON을 통해 모델이 적합한지를 테스트하는 과정에서 사용되던 Memo가, Coredata를 사용하게 되면서 타입이 중복되는 게 아닌가 하는 의문이 들었다 <br> - 이후 Entity, Model 등의 용어를 확인하는 과정에서 VO를 확인할 수 있었고, 굳이 분류를 하자면 CloudNote는 entity, Memo는 VO로 현재의 구조를 유지해도 괜찮을 것 같겠다는 생각이 들었다 <br> - 특히 entity인 CloudNote는 NSManagedObjectModel를 상속받고 있는데, 이 내용이 굉장히 무겁고 복잡하기 때문에 View에서는 이러한 내용들은 애초에 알 필요가 없기 때문에 현재의 구조를 유지하기로 마음을 굳혔다|
+| persistentContainer의 위치 | - 처음 프로젝트 기본 구현에서는 AppDelegate가 들고 있고, 이를 SceneDelegate에 전달해주고 있었고, 여기서 다시 window.rootViewController에 전달해줄 수 있는 형태였다 <br> - 처음에는 기본 구현된 내용이기 때문에 자연스럽게 문제가 없다고 느꼈으나, 공식문서인지 튜토리얼인지에서 앱의 launch가 오래걸리면 iOS에서 강제로 앱을 종료시킨다고 하는 글을 읽게 되었다 <br> - 그래서 CoreData가 특히 AppDelegate에서 초기화가 되는 부분이 마음에 걸렸고, 그렇게 고민하다 보니 SceneDelegate에서 AppDelegate를 알아야하는 것도 마음에 걸렸다 <br> - 그러면서도 SceneDelegate의 기본구현된 내용은 필요한 내용이라고 여겨졌고... SceneDelegate가 CoreData를 알아야한다는 점 때문에, 절충안으로 SplitViewController에 넣게 되었다 <br> - 특히 SceneDelegate는 어차피 SplitViewController를 알아야 하고, SplitViewController는 메시지를 포워딩 해주는 타입이라는 점에서... <br> - 하지만 막상 구현해놓고 보니 차츰 CoreData의 extension이 너무 많아지게 되었고, 아예 다른 CoreDataManager라고 하는 다른 타입으로 분리하여, CoreDataManager가 persistentContainer를 가지고 있고, CoreDataManager을 SplitVC에서 가지고 있는 것으로 바꾸게 되었다|
+| CloudNote와 Memo | - 처음에 Cloudnote를 사용하지 않고 JSON을 통해 모델이 적합한지를 테스트하는 과정에서 사용되던 Memo가, CoreData를 사용하게 되면서 타입이 중복되는 게 아닌가 하는 의문이 들었다 <br> - 이후 Entity, Model 등의 용어를 확인하는 과정에서 VO를 확인할 수 있었고, 굳이 분류를 하자면 CloudNote는 entity, Memo는 VO로 현재의 구조를 유지해도 괜찮을 것 같겠다는 생각이 들었다 <br> - 특히 entity인 CloudNote는 NSManagedObjectModel를 상속받고 있는데, 이 내용이 굉장히 무겁고 복잡하기 때문에 View에서는 이러한 내용들은 애초에 알 필요가 없기 때문에 현재의 구조를 유지하기로 마음을 굳혔다|
 
 <br>
 

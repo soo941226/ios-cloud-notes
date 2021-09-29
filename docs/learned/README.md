@@ -119,12 +119,12 @@
 
 <br>
 
-### 7. Coredata
+### 7. CoreData
 
 | Theme | Description |
 | :---: | :--- |
-| Coredata stack | - Persistent container -> NSPersistentContainer <br> - Model -> NSMangedObjectModel <br> - Context -> NSMangedObjectContext <br> - Store Coordinator -> NSPersistentStoreCoordinator |
-| NSPersistentContainer | - Core Data Stack 그 자체라고 봐도 무방한 요소 <br> - Model, Context, Store coordinator 를 가지고 있다 <br> - 프로젝트를 만들 때에 Coredata를 사용한다고 체크해놓으면, AppDelegate에 이에 대한 구현부가 미리 작성되어있다|
+| CoreData stack | - Persistent container -> NSPersistentContainer <br> - Model -> NSMangedObjectModel <br> - Context -> NSMangedObjectContext <br> - Store Coordinator -> NSPersistentStoreCoordinator |
+| NSPersistentContainer | - Core Data Stack 그 자체라고 봐도 무방한 요소 <br> - Model, Context, Store coordinator 를 가지고 있다 <br> - 프로젝트를 만들 때에 CoreData를 사용한다고 체크해놓으면, AppDelegate에 이에 대한 구현부가 미리 작성되어있다|
 | NSManagedObjectModel | - xcdatamodeld 파일에 정의된 내용들을 다시 코드 레벨에서  풀어주는 타입, 말그대로 모델 그 자체 <br> - 이게 바뀌면 마이그레이션을 해야하는데, <br> - 런타임에 바뀌면 old와 new를 구분해서 old는 삭제시키는 게 아니라 depreacted를 시켜야한다고 한다 <br> - 각각의 모델마다 context를 가지고 있다  <br> - Entity → DB에 저장되어 있는 타입, 기록 <br> - Model → Swift에서 사용하고 정의하면서, 현실 세상을 반영하는 타입|
 | NSMangedObjectContext | - 위의 모델을 조작하고, 변경을 추적하는 타입 <br> - 이번 프로젝트를 하면서 가장 많이 사용하게 된 타입 -> 실제로 중요한 타입 <br> - 스토어에 반영되기 전, 메모리 내에서 모델을 관리하는 타입 <br> - 컨텍스트-컨텍스트, 컨텍스트-스토어 등의 관계를 가질 수 있고, 하위 타입에서 변경이 일어나면 상위 타입에게 알려주어야 한다 → 루트 컨텍스트가 존재하며 이는 반드시 스토어와 연결되어있다 <br> - 부모 컨텍스트의 경우 다양한 자식 컨텍스트로부터 리퀘스트를 받을 수 있기 때문에, thread-safe를 고려해야 한다 <br> - 루트 컨텍스트가 스토어에 커밋하기 전까지는, 자식 컨텍스트의 커밋은 스토어에 반영되지 않는다(in-memory) <br> - insertedObjects, updatedObjects, deletedObjects라는 프로퍼티들을 통해 이러한 내용들을 기록 및 유지하고 있다 <br> - context.save() 를 하게 되면 store에 내용을 반영하면서, registeredObjects에 데이터를 동기화한다|
 | NSPersistentStoreCoordinator | - Context와 Store 사이에서, Context의 요구대로 값을 입력하거나, 값을 전달해주는 타입 <br> - Coordinator는 작업을 동시성과는 상반되게 동작한다. 즉 작업을 직렬화한 뒤 동작한다. 때문에 멀티스레드 환경에서 사용하고 싶다면, 그만큼의 Coordinator를 생성할 필요가 있다 |

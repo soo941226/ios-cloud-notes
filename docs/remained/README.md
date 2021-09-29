@@ -4,6 +4,9 @@
     * [1. isTest -> Debug Target](#1-istest---debug-target)
     * [2. Debouncing, Throttling](#2-debouncing-throttling)
     * [3. Naming](#3-naming)
+    * [4. UI/UX](#4-uiux)
+    * [5. Keyboard](#5-keyboard)
+    * [6. CoreData 관련한 Error handling](#6-coredata--error-handling)
 
 <br>
 
@@ -75,13 +78,13 @@
 
 <br>
 
-### 6. Coredata 관련한 Error handling
+### 6. CoreData 관련한 Error handling
 
 * 특히 이슈가 발생할 수 있는 시점은 아래와 같았다
   * NSPersistentCloudKitContainer.loadPersistentStores{ ... }
   * persistentContainer.context.save()
   * persistentContainer.context.fetch()
-* loadPersistentStores의 경우 결국 Coredata에 접근을 하지 못하는 것이었는데, 처음에는 falalError를 띄우게 해놓았었다
+* loadPersistentStores의 경우 결국 CoreData에 접근을 하지 못하는 것이었는데, 처음에는 falalError를 띄우게 해놓았었다
   * 극단적이라는 생각이 들기는 했지만 따로 어떤 처리를 해야할지 전혀 감을 잡지 못했기 때문이었는데, 올라프의 말씀으로는 이와 관련한 내용도 alert을 띄워 사용자에게 어떤 이슈가 발생했고 어떻게 조치를 하는 게 좋을지 이야기를 해주는 게 좋다고 하셨다
   * 이에 대한 피드백을 처리하려고 했으나, 타입 내부에서 closure를 통해 초기화되고 있을 때에, 에러를 어떻게 뷰까지 전파를 할 것인지 쉬운 방법이 떠오르지 않았다
   * Notification을 활용할 수 있을 것인지... 아니면 이에 대한 내용을 result타입으로 처리하여 컨트롤러도 이 책임을 지게 할 것인지...
