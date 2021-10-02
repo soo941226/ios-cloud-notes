@@ -39,7 +39,7 @@
 | Intrinsic content-size | - 특히 UITextView와 시작으로 공부하게 됐다 <br> - Intrinsic content-size는 UIView가 기본적으로 어떤 frame을 가질지를 결정하는 값인데, subclass에 따라 그 값이 다르다 <br> - UITextView는 내부 컨텐츠, 즉 text만큼의 크기를 갖게 된다 <br> - 튜토리얼 문서였는지, WWDC였는지... 정확히 기억은 나지 않지만 일단 먼저 이 값을 고려하여 레이아웃을 구성하라고 했던 게 기억에 남는다|
 | NSLayoutConstraint | - Storyboard에서 적용하던 constraint가 코드레벨에서 풀어진 것 <br> - class method로 activate를 가지고 있는데, 이를 통해 이 타입의 인스턴스들의 isActive를 모두 true로 만들 수 있다. 별 거 아닌데 보기에도 명료하고 참 좋은 경험이었다 |
 | UIStackView | - axis, spacing, distribution, alignment 등을 통해 레이아웃을 재사용하기 쉬우면서, 또 유기적으로 연결될 수 있도록 도와준다 <br> - 알고는 있었지만 적극적으로 활용하지 못했었는데, 이번 프로젝트를 통해 적용해보면서 결과가 매우 깔끔해서 만족스러웠다 |
-| CoreGraphics | - `CGPoint`: 2차원 좌표(x,y)를 가지고 있는 타입 <br> - `CGSize`: 2차원 넓이(width, height)를 가지고 있는 타입 <br> - `CGRect`: 좌표(CGPoint)와 넓이(CGSize)를 가지고 있는 2차원 사각형 <br> - `frame`: superView로부터의 CGRect <br> - `bounds`: self로부터의 CGRect -> subview들에게 영향을 끼침 <br> - `inset`: superView로부터의 set -> 간격, 마진 <br> - `offset`: self의 set -> bounds.point -> scrolling에 주로 사용 |
+| CoreGraphics | - `CGPoint`: 2차원 좌표(x,y)를 가지고 있는 타입 <br> - `CGSize`: 2차원 넓이(width, height)를 가지고 있는 타입 <br> - `CGRect`: 좌표(CGPoint)와 넓이(CGSize)를 가지고 있는 2차원 사각형 <br> - `frame`: superView로부터의 CGRect <br> - `bounds`: self로부터의 CGRect -> subView들에게 영향을 끼침 <br> - `inset`: superView로부터의 set -> 간격, 마진 <br> - `offset`: self의 set -> bounds.point -> scrolling에 주로 사용 |
 | layoutMarigns vs directionalLayoutMargins | - `layoutMarigns`: top, left, bottom, right를 사용한다 <br> - `directionalLayoutMargins`: top, leading, bottom, trailing을 사용한다 <br> - left와 right는 권장되지 않는 사용법이므로, directionalLayoutMargins을 사용하도록 해야겠다 |
 
 <br> 
